@@ -6,5 +6,4 @@ WORKDIR /usr/src/app
 
 EXPOSE 8080
 
-CMD polyserve
-
+#CMD polyserve
