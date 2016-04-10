@@ -1,6 +1,9 @@
 # sb-meme-generator [![Build Status](https://travis-ci.org/space-beavers/sb-meme-generator.svg?branch=master)](https://travis-ci.org/space-beavers/sb-meme-generator)
+
 Meme generator polymer element
 
+## Slack
+[Space Beavers on Slack](space-beavers.slack.com)
 
 ## Dependencies
 
