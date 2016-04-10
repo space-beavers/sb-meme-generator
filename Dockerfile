@@ -1,5 +1,9 @@
-FROM nginx
+FROM node:5.10-onbuild
 
-MAINTAINER Chris Saunders <slapheadted@gmail.com>
+RUN npm install -g polyserve
 
-COPY . /usr/share/nginx/html
+WORKDIR /usr/src/app
+
+EXPOSE 8080
+
+CMD polyserve
