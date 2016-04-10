@@ -15,7 +15,7 @@ install that via:
 Then, go ahead and download the element's dependencies:
 
     bower install
-
+	  
 
 ## Playing With Your Element
 
