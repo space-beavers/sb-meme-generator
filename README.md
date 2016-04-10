@@ -1,7 +1,4 @@
-SB Meme Generator [![Build Status](https://travis-ci.org/space-beavers/sb-meme-generator.svg?branch=master)](https://travis-ci.org/space-beavers/sb-meme-generator.svg?branch=master)
-=============
-
-# sb-meme-generator
+# sb-meme-generator [![Build Status](https://travis-ci.org/space-beavers/sb-meme-generator.svg?branch=master)](https://travis-ci.org/space-beavers/sb-meme-generator)
 Meme generator polymer element
 
 
