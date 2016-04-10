@@ -41,6 +41,7 @@
     "paper-ripple": "^1.0.0",
     "font-roboto": "^1.0.1",
     "paper-card": "^1.1.0",
-    "paper-item": "^1.0.0"
+    "paper-item": "^1.0.0",
+    "paper-menu": "^1.0.0"
   }
 }
