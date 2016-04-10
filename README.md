@@ -3,7 +3,7 @@
 Meme generator polymer element
 
 ## Slack
-[Space Beavers on Slack](space-beavers.slack.com)
+[Space Beavers on Slack](https://space-beavers.slack.com)
 
 ## Dependencies
 
