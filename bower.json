@@ -42,6 +42,8 @@
     "web-component-tester": "^4.0.0"
   },
   "resolutions": {
-    "polymer": "^1.2.0"
+    "polymer": "^1.2.0",
+    "paper-ripple": "^1.0.0",
+    "font-roboto": "^1.0.1"
   }
 }
