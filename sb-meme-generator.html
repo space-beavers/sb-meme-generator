@@ -214,7 +214,7 @@ Example:
         <paper-textarea label="Top line" is="iron-input" value="{{header::input}}"></paper-textarea>
         <paper-textarea label="Bottom line" is="iron-input" value="{{footer::input}}"></paper-textarea>
          {{_memeDownloadStatus}}
-         <a href="{{_memeDownloadUrl}}" target="_blank">{{_memeDownloadUrl}}</a>
+         <a href$="{{_memeDownloadUrl}}" target="_blank">{{_memeDownloadUrl}}</a>
       </paper-card>
       <div class="flexchild"></div>
     </div>
@@ -238,6 +238,13 @@ Example:
       is: 'sb-meme-generator',
 
       properties: {
+        /**
+         * The response object from the memes api
+         */
+        memesDataResponse: {
+          type: Object
+        },
+
         /**
          * Header text
          */
