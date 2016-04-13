@@ -183,67 +183,69 @@ Example:
       </div>
     </template>
 
-    <template is="dom-if" if="{{!loading}}">
+    <div id="memeGeneratorContainer">
+      <template is="dom-if" if="{{!loading}}">
 
-      <div class="container flex-horizontal">
-        <div class="flexchild"></div>
+        <div class="container flex-horizontal">
+          <div class="flexchild"></div>
 
 
 
-        <iron-pages id="memePages" selected="{{_selectedMemeIndex}}">
+          <iron-pages id="memePages" selected="{{_selectedMemeIndex}}">
 
-          <template is="dom-repeat" items="[[memesDataResponse.data.memes]]">
-            <iron-swipeable-container swipe-style="curve" renewable>
-              <paper-card class="meme-card">
-                <!-- FIXME: iron-image does not seem to work well with html2canvas -->
-                <iron-image style="height: 300px; width: 300px; background-color: lightgray;"
-                            sizing="cover" preload fade src="[[item.url]]"></iron-image>
-                <p class="meme-header meme-text">{{header}}</p>
-                <p class="meme-footer meme-text">{{footer}}</p>
-              </paper-card>
-            </iron-swipeable-container>
-          </template>
+            <template is="dom-repeat" items="[[memesDataResponse.data.memes]]">
+              <iron-swipeable-container swipe-style="curve" renewable>
+                <paper-card class="meme-card">
+                  <!-- FIXME: iron-image does not seem to work well with html2canvas -->
+                  <iron-image style="height: 300px; width: 300px; background-color: lightgray;"
+                              sizing="cover" preload fade src="[[item.url]]"></iron-image>
+                  <p class="meme-header meme-text">{{header}}</p>
+                  <p class="meme-footer meme-text">{{footer}}</p>
+                </paper-card>
+              </iron-swipeable-container>
+            </template>
 
-        </iron-pages>
-        <div class="flexchild"></div>
-      </div>
+          </iron-pages>
+          <div class="flexchild"></div>
+        </div>
 
-      <div class="container flex-horizontal">
-        <div class="flexchild"></div>
-        <paper-card class="meme-controls">
+        <div class="container flex-horizontal">
+          <div class="flexchild"></div>
+          <paper-card class="meme-controls">
 
-            <paper-dropdown-menu label="Choose your meme" id="memeDropdownSelect">
-              <paper-menu class="dropdown-content" selected="{{_selectedMemeIndex}}">
-                <template is="dom-repeat" items="[[memesDataResponse.data.memes]]" as="meme">
-                  <paper-item>
-                    <iron-image class="meme-thumbnail" sizing="cover" preload fade src="[[meme.url]]"></iron-image>
-                    <span>[[meme.name]]</span>
-                  </paper-item>
-                </template>
-              </paper-menu>
-            </paper-dropdown-menu>
+              <paper-dropdown-menu label="Choose your meme" id="memeDropdownSelect">
+                <paper-menu class="dropdown-content" selected="{{_selectedMemeIndex}}">
+                  <template is="dom-repeat" items="[[memesDataResponse.data.memes]]" as="meme">
+                    <paper-item>
+                      <iron-image class="meme-thumbnail" sizing="cover" preload fade src="[[meme.url]]"></iron-image>
+                      <span>[[meme.name]]</span>
+                    </paper-item>
+                  </template>
+                </paper-menu>
+              </paper-dropdown-menu>
 
-          <paper-textarea label="Top line" is="iron-input" value="{{header::input}}"></paper-textarea>
-          <paper-textarea label="Bottom line" is="iron-input" value="{{footer::input}}"></paper-textarea>
-           {{_memeDownloadStatus}}
-           <a href$="{{_memeDownloadUrl}}" target="_blank">{{_memeDownloadUrl}}</a>
-        </paper-card>
-        <div class="flexchild"></div>
-      </div>
+            <paper-textarea label="Top line" is="iron-input" value="{{header::input}}"></paper-textarea>
+            <paper-textarea label="Bottom line" is="iron-input" value="{{footer::input}}"></paper-textarea>
+             {{_memeDownloadStatus}}
+             <a href$="{{_memeDownloadUrl}}" target="_blank">{{_memeDownloadUrl}}</a>
+          </paper-card>
+          <div class="flexchild"></div>
+        </div>
 
-      <sb-html2canvas-element id="memeImageGenerator" container="memePages"></sb-html2canvas-element>
+        <sb-html2canvas-element id="memeImageGenerator" container="memePages"></sb-html2canvas-element>
 
-      <paper-fab icon="file-download" title="Download" on-tap="saveImage" id="pageRight" class="download"></paper-fab>
-      <paper-fab icon="device:wifi-tethering" title="Push Notify" on-tap="pushNotify" class="pushNotify"></paper-fab>
+        <paper-fab icon="file-download" title="Download" on-tap="saveImage" id="pageRight" class="download"></paper-fab>
+        <paper-fab icon="device:wifi-tethering" title="Push Notify" on-tap="pushNotify" class="pushNotify"></paper-fab>
 
-      <iron-a11y-keys id="a11y" target="[[target]]" keys="left right up down"
-                      on-keys-pressed="_changeMemeByKey"></iron-a11y-keys>
+        <iron-a11y-keys id="a11y" target="[[target]]" keys="left right up down"
+                        on-keys-pressed="_changeMemeByKey"></iron-a11y-keys>
 
-      <paper-toast id="memeToast" text="Your meme has been pushed!">
-        <a href="#" on-tap="closeToast">DISMISS</a>
-      </paper-toast>
+        <paper-toast id="memeToast" text="Your meme has been pushed!">
+          <a href="#" on-tap="closeToast">DISMISS</a>
+        </paper-toast>
 
-    </template>
+      </template>
+    </div>
 
   </template>
 
@@ -373,11 +375,11 @@ Example:
           switch (direction) {
             case 'right':
             case 'down':
-              this.$.memePages.selectNext();
+              this.$.memeGeneratorContainer.querySelector('#memePages').selectNext();
               break;
             case 'left':
             case 'up':
-              this.$.memePages.selectPrevious();
+              this.$.memeGeneratorContainer.querySelector('#memePages').selectPrevious();
               break;
           }
       },
