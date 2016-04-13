@@ -21,6 +21,7 @@
 <link rel="import" href="../paper-input/paper-textarea.html">
 <link rel="import" href="../paper-toast/paper-toast.html">
 <link rel="import" href="../paper-styles/typography.html">
+<link rel="import" href="../paper-spinner/paper-spinner.html">
 
 <!-- space beaver elements -->
 <link rel="import" href="../sb-html2canvas-element/sb-html2canvas-element.html">
@@ -172,64 +173,77 @@ Example:
 
 
     </style>
+    <iron-ajax auto url="https://api.imgflip.com/get_memes" handle-as="json" loading="{{loading}}" last-response="{{memesDataResponse}}"></iron-ajax>
 
-    <div class="container flex-horizontal">
-      <div class="flexchild"></div>
+    <template is="dom-if" if="{{loading}}">
+      <div class="container flex-horizontal">
+        <div class="flexchild"></div>
+        <paper-spinner active></paper-spinner>
+        <div class="flexchild"></div>
+      </div>
+    </template>
 
-      <iron-ajax auto url="https://api.imgflip.com/get_memes" handle-as="json" last-response="{{memesDataResponse}}"></iron-ajax>
-      <iron-pages id="memePages" selected="{{_selectedMemeIndex}}">
+    <template is="dom-if" if="{{!loading}}">
 
-        <template is="dom-repeat" items="[[memesDataResponse.data.memes]]">
-          <iron-swipeable-container swipe-style="curve" renewable>
-            <paper-card class="meme-card">
-              <!-- FIXME: iron-image does not seem to work well with html2canvas -->
-              <iron-image style="height: 300px; width: 300px; background-color: lightgray;"
-                          sizing="cover" preload fade src="[[item.url]]"></iron-image>
-              <p class="meme-header meme-text">{{header}}</p>
-              <p class="meme-footer meme-text">{{footer}}</p>
-            </paper-card>
-          </iron-swipeable-container>
-        </template>
+      <div class="container flex-horizontal">
+        <div class="flexchild"></div>
 
-      </iron-pages>
 
-      <div class="flexchild"></div>
-    </div>
 
-    <div class="container flex-horizontal">
-      <div class="flexchild"></div>
-      <paper-card class="meme-controls">
+        <iron-pages id="memePages" selected="{{_selectedMemeIndex}}">
 
-          <paper-dropdown-menu label="Choose your meme" id="memeDropdownSelect">
-            <paper-menu class="dropdown-content" selected="{{_selectedMemeIndex}}">
-              <template is="dom-repeat" items="[[memesDataResponse.data.memes]]" as="meme">
-                <paper-item>
-                  <iron-image class="meme-thumbnail" sizing="cover" preload fade src="[[meme.url]]"></iron-image>
-                  <span>[[meme.name]]</span>
-                </paper-item>
-              </template>
-            </paper-menu>
-          </paper-dropdown-menu>
+          <template is="dom-repeat" items="[[memesDataResponse.data.memes]]">
+            <iron-swipeable-container swipe-style="curve" renewable>
+              <paper-card class="meme-card">
+                <!-- FIXME: iron-image does not seem to work well with html2canvas -->
+                <iron-image style="height: 300px; width: 300px; background-color: lightgray;"
+                            sizing="cover" preload fade src="[[item.url]]"></iron-image>
+                <p class="meme-header meme-text">{{header}}</p>
+                <p class="meme-footer meme-text">{{footer}}</p>
+              </paper-card>
+            </iron-swipeable-container>
+          </template>
 
-        <paper-textarea label="Top line" is="iron-input" value="{{header::input}}"></paper-textarea>
-        <paper-textarea label="Bottom line" is="iron-input" value="{{footer::input}}"></paper-textarea>
-         {{_memeDownloadStatus}}
-         <a href$="{{_memeDownloadUrl}}" target="_blank">{{_memeDownloadUrl}}</a>
-      </paper-card>
-      <div class="flexchild"></div>
-    </div>
+        </iron-pages>
+        <div class="flexchild"></div>
+      </div>
 
-    <sb-html2canvas-element id="memeImageGenerator" container="memePages"></sb-html2canvas-element>
+      <div class="container flex-horizontal">
+        <div class="flexchild"></div>
+        <paper-card class="meme-controls">
 
-    <paper-fab icon="file-download" title="Download" on-tap="saveImage" id="pageRight" class="download"></paper-fab>
-    <paper-fab icon="device:wifi-tethering" title="Push Notify" on-tap="pushNotify" class="pushNotify"></paper-fab>
+            <paper-dropdown-menu label="Choose your meme" id="memeDropdownSelect">
+              <paper-menu class="dropdown-content" selected="{{_selectedMemeIndex}}">
+                <template is="dom-repeat" items="[[memesDataResponse.data.memes]]" as="meme">
+                  <paper-item>
+                    <iron-image class="meme-thumbnail" sizing="cover" preload fade src="[[meme.url]]"></iron-image>
+                    <span>[[meme.name]]</span>
+                  </paper-item>
+                </template>
+              </paper-menu>
+            </paper-dropdown-menu>
 
-    <iron-a11y-keys id="a11y" target="[[target]]" keys="left right up down"
-                    on-keys-pressed="_changeMemeByKey"></iron-a11y-keys>
+          <paper-textarea label="Top line" is="iron-input" value="{{header::input}}"></paper-textarea>
+          <paper-textarea label="Bottom line" is="iron-input" value="{{footer::input}}"></paper-textarea>
+           {{_memeDownloadStatus}}
+           <a href$="{{_memeDownloadUrl}}" target="_blank">{{_memeDownloadUrl}}</a>
+        </paper-card>
+        <div class="flexchild"></div>
+      </div>
 
-    <paper-toast id="memeToast" text="Your meme has been pushed!">
-      <a href="#" on-tap="closeToast">DISMISS</a>
-    </paper-toast>
+      <sb-html2canvas-element id="memeImageGenerator" container="memePages"></sb-html2canvas-element>
+
+      <paper-fab icon="file-download" title="Download" on-tap="saveImage" id="pageRight" class="download"></paper-fab>
+      <paper-fab icon="device:wifi-tethering" title="Push Notify" on-tap="pushNotify" class="pushNotify"></paper-fab>
+
+      <iron-a11y-keys id="a11y" target="[[target]]" keys="left right up down"
+                      on-keys-pressed="_changeMemeByKey"></iron-a11y-keys>
+
+      <paper-toast id="memeToast" text="Your meme has been pushed!">
+        <a href="#" on-tap="closeToast">DISMISS</a>
+      </paper-toast>
+
+    </template>
 
   </template>
 
@@ -238,6 +252,11 @@ Example:
       is: 'sb-meme-generator',
 
       properties: {
+        loading: {
+          type: Boolean,
+          notify: true
+        },
+
         /**
          * The response object from the memes api
          */
