@@ -24,7 +24,7 @@
 <link rel="import" href="../paper-spinner/paper-spinner.html">
 
 <!-- space beaver elements -->
-<link rel="import" href="../sb-html2canvas-element/sb-html2canvas-element.html">
+<link rel="import" href="../sb-meme-image-creator/sb-meme-image-creator.html">
 
 <!--
 Meme Generator.
@@ -173,6 +173,7 @@ Example:
 
 
     </style>
+
     <iron-ajax auto url="https://api.imgflip.com/get_memes" handle-as="json" loading="{{loading}}" last-response="{{memesDataResponse}}"></iron-ajax>
 
     <template is="dom-if" if="{{loading}}">
@@ -197,7 +198,7 @@ Example:
               <iron-swipeable-container swipe-style="curve" renewable>
                 <paper-card class="meme-card">
                   <!-- FIXME: iron-image does not seem to work well with html2canvas -->
-                  <iron-image style="height: 300px; width: 300px; background-color: lightgray;"
+                  <iron-image id="memeImageCard" style="height: 300px; width: 300px; background-color: lightgray;"
                               sizing="cover" preload fade src="[[item.url]]"></iron-image>
                   <p class="meme-header meme-text">{{header}}</p>
                   <p class="meme-footer meme-text">{{footer}}</p>
@@ -232,7 +233,7 @@ Example:
           <div class="flexchild"></div>
         </div>
 
-        <sb-html2canvas-element id="memeImageGenerator" container="memePages"></sb-html2canvas-element>
+        <sb-meme-image-creator id="memeImageGenerator"></sb-meme-image-creator>
 
         <paper-fab icon="file-download" title="Download" on-tap="saveImage" id="pageRight" class="download"></paper-fab>
         <paper-fab icon="device:wifi-tethering" title="Push Notify" on-tap="pushNotify" class="pushNotify"></paper-fab>
@@ -341,7 +342,7 @@ Example:
       // Event Listeners
       listeners: {
         'iron-swipe': '_changeMemeBySwipe',
-        'sb-html2canvas-element-created': '_htmlCanvasImageCreated'
+        'sb-meme-image-creator-created': '_memeImageCreated'
       },
 
       // Element Lifecycle
@@ -405,13 +406,17 @@ Example:
         saveImage: function() {
           this._memeDownloadUrl = '';
           this._memeDownloadStatus = 'Generating Image...';
-          this.$.memeImageGenerator.generateImage();
+          var memeImageGeneratorEle = this.$.memeGeneratorContainer.querySelector('#memeImageGenerator');
+          memeImageGeneratorEle.imageUrl = this.memesDataResponse.data.memes[this._selectedMemeIndex].url;
+          memeImageGeneratorEle.headerText = this.header;
+          memeImageGeneratorEle.footerText = this.footer;
+          memeImageGeneratorEle.generateImage();
         },
 
         /**
          * Event handler: Meme image is ready for download
          */
-        _htmlCanvasImageCreated: function(data) {
+        _memeImageCreated: function(data) {
           this._memeDownloadStatus = '';
           this._memeDownloadUrl = data.detail.imageUrl;
         },
